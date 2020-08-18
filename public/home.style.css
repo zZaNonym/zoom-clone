@@ -1,0 +1,49 @@
+body {
+  margin: 0;
+  padding: 0;
+}
+
+/*======================ScroolBar style======================*/
+.main {
+  background-color: #1a1a1d;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.form__wrapper {
+  display: flex;
+  flex: 0 1 300px;
+  flex-direction: column;
+  color: white;
+  font-family: 'Roboto', sans-serif;
+}
+.from__title {
+  text-align: center;
+  border-bottom: 2px solid #fff;
+  padding-bottom: 10px;
+}
+
+.form__input {
+  display: block;
+  border-radius: 0;
+  outline: none;
+  padding: 15px 20px;
+  width: 100%;
+  box-sizing: border-box;
+  margin-bottom: 20px;
+}
+.form__button {
+  padding: 15px 20px;
+  width: 100%;
+  border: none;
+  background-color: #2979ff;
+  border-radius: 5px;
+  cursor: pointer;
+  color: inherit;
+  font-size: 18px;
+  text-transform: uppercase;
+}
+.form__button:focus {
+  outline: none;
+}
