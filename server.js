@@ -5,6 +5,9 @@ const server = require('http').createServer(app);
 const { v4: uuidv4 } = require('uuid');
 const io = require('socket.io')(server);
 
+const { PeerServer } = require('peer');
+PeerServer({ port: 9000, path: '/' });
+
 const users = {};
 app.set('view engine', 'ejs');
 
