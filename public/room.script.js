@@ -1,6 +1,6 @@
 const socket = io('/');
-
 const myVideo = document.createElement('video');
+myVideo.muted = true;
 const myMessage = document.getElementById('chat_messages');
 const myAudioBtn = document.getElementById('audio-btn');
 const myVideoBtn = document.getElementById('video-btn');
@@ -13,9 +13,9 @@ let myVideoStream;
 const peers = {};
 
 const myPeer = new Peer(undefined, {
-  path: '/peerjs',
   host: '/',
-  port: '443',
+  port: '9000',
+  path: '/',
 });
 
 //=============================Stream=============================
@@ -42,6 +42,10 @@ navigator
       call.on('stream', (userVideoStream) => {
         addVideoStream(video, userVideoStream);
       });
+      call.on('close', () => {
+        video.remove();
+      });
+      peers[call.peer] = { call };
     });
 
     socket.on('user-connected', (userId, nickname) => {
@@ -159,6 +163,7 @@ function createModal(data) {
 //=============================Socket|Peer=============================
 
 myPeer.on('open', (id) => {
+  console.log('open');
   socket.emit('join-room', ROOM_ID, id, NICKNAME);
 });
 
@@ -169,7 +174,11 @@ socket.on('message', (message) => {
 socket.on('user-disconnected', (userId) => {
   if (peers[userId]) {
     peers[userId].call.close();
-    createMessage({ user: peers[userId].nickname + ' - disconnected' });
+    createMessage({
+      user: peers[userId].nickname
+        ? peers[userId].nickname
+        : 'User' + ' - disconnected',
+    });
     delete peers[userId];
   }
 });
