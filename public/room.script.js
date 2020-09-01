@@ -12,10 +12,22 @@ const videoGrid = document.getElementById('video-grid');
 let myVideoStream;
 const peers = {};
 
-const myPeer = new Peer(undefined, {
+const myPeer = new Peer({
   host: '/',
   port: '9000',
   path: '/',
+  config: {
+    iceServers: [
+      { url: 'stun:stun1.l.google.com:19302' },
+      {
+        url: 'turn:numb.viagenie.ca',
+        credential: 'muazkh',
+        username: 'webrtc@live.com',
+      },
+    ],
+  },
+
+  debug: 3,
 });
 
 //=============================Stream=============================
@@ -175,9 +187,9 @@ socket.on('user-disconnected', (userId) => {
   if (peers[userId]) {
     peers[userId].call.close();
     createMessage({
-      user: peers[userId].nickname
-        ? peers[userId].nickname
-        : 'User' + ' - disconnected',
+      user:
+        (peers[userId].nickname ? peers[userId].nickname : 'User') +
+        ' - disconnected',
     });
     delete peers[userId];
   }
